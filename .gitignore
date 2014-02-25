@@ -1,5 +1,7 @@
 .temp
 .idea
+*.swp
+*.swo
 node_modules
 bower_components
 out

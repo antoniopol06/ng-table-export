@@ -22,7 +22,7 @@ angular.module('ngTableExport', [])
                     angular.forEach(rows, function(row, i) {
                         var tr = angular.element(row),
                             tds = tr.find('th'),
-                            rowData = '';
+                            rowData = '<tr>';
                         if (tr.hasClass('ng-table-filters')) {
                             return;
                         }
@@ -31,14 +31,17 @@ angular.module('ngTableExport', [])
                         }
                         if (i != 1) {
                             angular.forEach(tds, function(td, i) {
-                                rowData += csv.stringify(angular.element(td).text()) + ';';
+                                rowData += '<td>' + csv.stringify(angular.element(td).text()) + '</td>';
                             });
-                            rowData = rowData.slice(0, rowData.length - 1); //remove last semicolon
+                            rowData += '</tr>'
                         }
                         data += rowData + "\n";
                     });
                 },
                 link: function() {
+                    data = '<html lang="es"><head><meta http-equiv="content-type" content="application/vnd.ms-excel; charset=UTF-8">' +
+                           '</head><body><table border=1>' +
+                           data + '</table></body></html>';
                     return 'data:text/csv;charset=UTF-8,' + encodeURIComponent(data);
                 }
             };
